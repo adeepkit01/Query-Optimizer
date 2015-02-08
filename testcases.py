@@ -14,16 +14,20 @@ def generateTestCases(numberOfQueries):
     Returns:
         outputQuery : JSON object
     '''
-    ## Assuming userId is maximum number of 7 digits.
+    
     outputQuery = []
+    ## Output JSON object
     for user in xrange(numberOfQueries):
         tempQuery = {} 
-
+        ## Temporary Query which is later 
+    
         fieldsToBeAdded = []
+        ## A Boolean array containing what all is there in query
         for i in xrange(7):
             fieldsToBeAdded.append(random.choice([0,1]))
-            
+       
         userId = random.randint(1, 10000000)
+        ## Assuming userId is maximum number of 7 digits.
         tempQuery["userId"] = userId
         
         beginDay = random.randint(1, 27)
