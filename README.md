@@ -1,7 +1,7 @@
 # Query-Optimizer<br>
 Query format will be as follows : <br>
 ```
-{<br>
+{
 	beginDate:
 	endDate: 
 	// Date format would be same as `date +"%d-%m-%Y"`
