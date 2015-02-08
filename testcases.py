@@ -4,62 +4,60 @@ Author: Tushar Makkar <tusharmakkar08[at]gmail.com>
 Date: 08.02.2015
 '''
 
-from random import randint, choice
+import random
 
-def generateTestCases(numberOfUsers, minNumberOfQueries, maxNumberOfQueries):
+def generateTestCases(numberOfQueries):
     '''
     Returns the JSON object with queries
     Args:
-        numberOfUsers : Number of users querying the system
-        minNumberOfQueries : JSON should have minimum this much number of queries 
-        maxNumberOfQueries : JSON should have maximum this much number of queries 
+        numberOfQueries : number of queries which needed to be generated
     Returns:
         outputQuery : JSON object
     '''
     ## Assuming userId is maximum number of 7 digits.
     outputQuery = []
-    for user in xrange(numberOfUsers):
-        tempQuery = {}
- 
+    for user in xrange(numberOfQueries):
+        tempQuery = {} 
+
+        fieldsToBeAdded = []
+        for i in xrange(7):
+            fieldsToBeAdded.append(random.choice([0,1]))
+            
         userId = random.randint(1, 10000000)
- 
         tempQuery["userId"] = userId
-        beginDay = randint(1, 27)
-        beginMonth = randint(1, 12)
-        beginYear = randint(2015, 2020)
-        beginDate = str(beginDay + "-" + beginMonth + "-"+ beginYear)
-        endDate = str(randint(beginDay+1,28)+"-"+randint(beginMonth,12)
-                        +"-"+randint(beginYear,2025))
-        tempQuery["beginDate"] = beginDate
-        tempQuery["endDate"] = endDate
- 
-        affiliation = []
-        affiliationNumber = random.randint(1,3)
-        if i == 3 : 
-            affiliation = ["IEEE", "ACM" , "Springer"]
-        elif i==2 : 
-            affiliation = random.choice([["IEEE","ACM"],
-                            ["Springer","ACM"],["IEEE","Springer"]])
-        else : 
-            affiliation = random.choice(["Springer","IEEE","ACM"])
-        tempQuery["affiliation"] = affiliation
         
-        tempQuery["lowestRank"] = random.uniform(1,5)
-        tempQuery["highestRank"] = random.uniform(
-                        tempQuery["lowestRank"] + 0.001, 5)
-                    
+        beginDay = random.randint(1, 27)
+        beginMonth = random.randint(1, 12)
+        beginYear = random.randint(2015, 2020)
+        beginDate = str(str(beginDay) + "-" + str(beginMonth) + "-" + str(beginYear))
+        endDate = str(str(random.randint(beginDay+1,28)) + "-" + 
+                    str(random.randint(beginMonth,12)) + "-" + 
+                    str(random.randint(beginYear,2025)))
+        if(fieldsToBeAdded[0]):
+            tempQuery["beginDate"] = beginDate
+        else:
+            tempQuery["beginDate"] = None
+        if(fieldsToBeAdded[1]):
+            tempQuery["endDate"] = endDate
+        else:
+            tempQuery["endDate"] = endDate
+ 
         location = []
-        states = [Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Chhatisgarh, Goa,
-        Gujarat, Haryana , Himachal Pradesh, Jammu & Kashmir, Jharkhand, Karnataka,
-        Kerala, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland,
-        Orissa, Punjab, Rajasthan, Sikkim, Tamil Nadu, Tripura, Uttar Pradesh,
-        Uttaranchal, West Bengal]
+        states = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", 
+        "Chhatisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", 
+        "Jammu & Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh",
+        "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Orissa",
+        "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Tripura", "Uttar Pradesh",
+        "Uttaranchal", "West Bengal"]
         cities = []
-        numberOfLocations = random.randInt(1,28)
-        for states in xrange(numberOfLocations):
-            location.append({"state":states[random.randint(0,28)],
+        numberOfLocations = random.randint(1,25)
+        for state in xrange(numberOfLocations):
+            location.append({"state" : states[random.randint(0,25)],
                             "city": None })
-        tempQuery["location"] = location
+        if(fieldsToBeAdded[2]):
+            tempQuery["location"] = location
+        else: 
+            tempQuery["location"] = None
         
         interest = []
         broadDomain = ["CSE", "ME", "Meta", "Mining", "EE", "ECE", "IT"]
@@ -78,11 +76,41 @@ def generateTestCases(numberOfUsers, minNumberOfQueries, maxNumberOfQueries):
             for specification in xrange(numberOfSpec):
                 interest.append({"broadDomain": broadDomain[interestSpec]
                 , "specificDomain": 
-                mapSpec[str(specificDomain)+str(broadDomain[interestSpec])]
-                [random.randint(0,2)]})
-        tempQuery["interest"] = interest
+                mapSpec["specificDomain"+str(broadDomain[interestSpec])]
+                [random.randint(0,1)]})
+        if(fieldsToBeAdded[3]):
+            tempQuery["interest"] = interest
+        else:
+            tempQuery["interest"] = None
+
+        affiliation = []
+        affiliationNumber = random.randint(1,3)
+        if i == 3 : 
+            affiliation = ["IEEE", "ACM" , "Springer"]
+        elif i==2 : 
+            affiliation = random.choice([["IEEE","ACM"],
+                            ["Springer","ACM"],["IEEE","Springer"]])
+        else : 
+            affiliation = random.choice(["Springer","IEEE","ACM"])
+        if(fieldsToBeAdded[4]):
+            tempQuery["affiliation"] = affiliation
+        else:
+            tempQuery["affiliation"] = None
+        
+        lowestRank = random.uniform(1,5);
+        if(fieldsToBeAdded[5]):
+            tempQuery["lowestRank"] = lowestRank
+        else:
+            tempQuery["lowestRank"] = 0
+        
+        if(fieldsToBeAdded[6]):
+            tempQuery["highestRank"] = random.uniform(
+                        lowestRank + 0.001, 5)
+        else:
+            tempQuery["highestRank"] = 6
         
         outputQuery.append(tempQuery)
+    return outputQuery
         
 if __name__ == '__main__':
-    generateTestCases(3, 1, 4)
+    print generateTestCases(3)
