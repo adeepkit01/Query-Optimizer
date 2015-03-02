@@ -5,9 +5,9 @@ Query format will be as follows : <br>
 	userId:
 	beginDate:
 	endDate: 
-	// Date format would be same as `date +"%d-%m-%Y"`
-	cff: 
+	cffDate: 
 	// Last date of paper submission
+	// Date format would be same as `date +"%d-%m-%Y"`
 	location:[{
 			  country:
 			, state:

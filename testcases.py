@@ -23,12 +23,15 @@ def generateTestCases(numberOfQueries):
     
         fieldsToBeAdded = []
         ## A Boolean array containing what all is there in query
-        for i in xrange(7):
+        for i in xrange(10):
             fieldsToBeAdded.append(random.choice([0,1]))
        
         userId = random.randint(1, 10000000)
         ## Assuming userId is maximum number of 7 digits.
-        tempQuery["userId"] = userId
+        if (fieldsToBeAdded[0]):
+            tempQuery["userId"] = userId
+        else:
+            tempQuery["userId"] = None
         
         beginDay = random.randint(1, 27)
         beginMonth = random.randint(1, 12)
@@ -37,15 +40,25 @@ def generateTestCases(numberOfQueries):
         endDate = str(str(random.randint(beginDay+1,28)) + "-" + 
                     str(random.randint(beginMonth,12)) + "-" + 
                     str(random.randint(beginYear,2025)))
-        if(fieldsToBeAdded[0]):
+        if(fieldsToBeAdded[1]):
             tempQuery["beginDate"] = beginDate
         else:
             tempQuery["beginDate"] = None
-        if(fieldsToBeAdded[1]):
+        if(fieldsToBeAdded[2]):
             tempQuery["endDate"] = endDate
         else:
             tempQuery["endDate"] = endDate
- 
+        
+        
+        cffDay = random.randint(1, 27)
+        cffMonth = random.randint(1, 12)
+        cffYear = random.randint(2015, 2020)
+        cffDate = str(str(beginDay) + "-" + str(beginMonth) + "-" + str(beginYear))
+        if(fieldsToBeAdded[3]):
+            tempQuery["cffDate"] = cffDate
+        else:
+            tempQuery["cffDate"] = cffDate
+                
         location = []
         states = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", 
         "Chhatisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", 
@@ -54,11 +67,13 @@ def generateTestCases(numberOfQueries):
         "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Tripura", "Uttar Pradesh",
         "Uttaranchal", "West Bengal"]
         cities = []
+        country = ["India"]
         numberOfLocations = random.randint(1,25)
         for state in xrange(numberOfLocations):
-            location.append({"state" : states[random.randint(0,25)],
+            location.append({"country" : country[0],
+                            "state" : states[random.randint(0,25)],
                             "city": None })
-        if(fieldsToBeAdded[2]):
+        if(fieldsToBeAdded[4]):
             tempQuery["location"] = location
         else: 
             tempQuery["location"] = None
@@ -82,7 +97,7 @@ def generateTestCases(numberOfQueries):
                 , "specificDomain": 
                 mapSpec["specificDomain"+str(broadDomain[interestSpec])]
                 [random.randint(0,1)]})
-        if(fieldsToBeAdded[3]):
+        if(fieldsToBeAdded[5]):
             tempQuery["interest"] = interest
         else:
             tempQuery["interest"] = None
@@ -96,22 +111,29 @@ def generateTestCases(numberOfQueries):
                             ["Springer","ACM"],["IEEE","Springer"]])
         else : 
             affiliation = random.choice(["Springer","IEEE","ACM"])
-        if(fieldsToBeAdded[4]):
-            tempQuery["affiliation"] = affiliation
+        if(fieldsToBeAdded[6]):
+            tempQuery["publisher"] = affiliation
         else:
-            tempQuery["affiliation"] = None
+            tempQuery["publisher"] = None
         
         lowestRank = random.uniform(1,5);
-        if(fieldsToBeAdded[5]):
+        if(fieldsToBeAdded[7]):
             tempQuery["lowestRank"] = lowestRank
         else:
             tempQuery["lowestRank"] = 0
         
-        if(fieldsToBeAdded[6]):
+        if(fieldsToBeAdded[8]):
             tempQuery["highestRank"] = random.uniform(
                         lowestRank + 0.001, 5)
         else:
             tempQuery["highestRank"] = 6
+        
+        flagArray = [True, False]
+        flagship = flagArray[random.randint(0,1)]
+        if(fieldsToBeAdded[9]):
+            tempQuery["flagship"] = flagship
+        else:
+            tempQuery["flagship"] = None
         
         outputQuery.append(tempQuery)
     return outputQuery
