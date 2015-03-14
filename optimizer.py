@@ -61,8 +61,36 @@ def CFPOptimizer(queries):
     #~ 
     return querySpecification
 
+
+def LocationOptimizer(queries):
+    '''
+    Input : Unoptimized Queries
+    Output : Queries optimized through Location States
+    '''
+    locationQuery = {}
+    querySpecification = {}
+    for query in queries : 
+        if query['location'] is None:
+            querySpecification[query['queryId']] = []
+            continue
+        for location in query['location']:
+            try:
+                locationQuery[location['state']].add(query['queryId'])
+            except KeyError:
+                locationQuery[location['state']] = set([query['queryId']])
+            try: 
+                if location['state'] not in querySpecification[query['queryId']]:
+                    querySpecification[query['queryId']].append(location['state'])
+            except KeyError:
+                querySpecification[query['queryId']] = [location['state']]
+                
+    #~ print "location Query is\n", locationQuery
+    #~ print "Query Specification is\n", querySpecification
+    #~ 
+    return querySpecification
+    
 if __name__ == '__main__':
-    initialRequests = 2
+    initialRequests = 5
     optimizedQueries = {}
     queries = testcases.generateTestCases(initialRequests)
     print len(queries)
@@ -72,4 +100,8 @@ if __name__ == '__main__':
     queryCFPOpt = CFPOptimizer(queries)
     for query in queryCFPOpt:
         optimizedQueries[query]["CFPDate"] = queryCFPOpt[query]
+    queryState = LocationOptimizer(queries)
+    for query in queryState:
+        optimizedQueries[query]["State"] = queryState[query]
     print optimizedQueries
+
