@@ -3,6 +3,7 @@ Query format will be as follows : <br>
 ```
 {
 	userId:
+	queryId:
 	beginDate:
 	endDate: 
 	cfpDate: 
@@ -28,17 +29,19 @@ For all those places where nothing is there just add `null` or `None` (in python
 
 ```
 [
-	{'publisher': None,
-	 'endDate': '26-10-2021', 
-	 'cfpDate': '9-1-2015',
-	 'lowestRank': 3.550249160539083,
-	 'beginDate': '9-1-2015', 
-	 'userId': 1914880, 
-	 'location': None, 
-	 'interest': 
-		[{'specificDomain': 'Signal', 'broadDomain': 'EE'}, 
-		{'specificDomain': 'Signal', 'broadDomain': 'EE'}], 
-	 'highestRank': 3.552828898086108
+	{
+		'publisher': None, 
+		'endDate': '13-12-2024', 
+		'interest': 
+			[{'specificDomain': 'Temperature', 'broadDomain': 'Meta'}, 
+			{'specificDomain': 'Soil', 'broadDomain': 'Meta'}], 
+		'lowestRank': 1.3407697776717198, 
+		'beginDate': '11-9-2017', 
+		'userId': 5765005, 
+		'queryId': 3015209, 
+		'location': None, 
+		'cfpDate': '11-9-2017', 
+		'highestRank': 6
 	}
 ]
 

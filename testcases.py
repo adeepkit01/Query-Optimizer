@@ -27,11 +27,10 @@ def generateTestCases(numberOfQueries):
             fieldsToBeAdded.append(random.choice([0,1]))
        
         userId = random.randint(1, 10000000)
+        queryId = random.randint(1, 10000000)
         ## Assuming userId is maximum number of 7 digits.
-        if (fieldsToBeAdded[0]):
-            tempQuery["userId"] = userId
-        else:
-            tempQuery["userId"] = None
+        tempQuery["userId"] = userId
+        tempQuery["queryId"] = queryId
         
         beginDay = random.randint(1, 27)
         beginMonth = random.randint(1, 12)
