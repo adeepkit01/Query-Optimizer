@@ -18,7 +18,7 @@ def ratingGen(flagship, affiliation, featured,
                 of relative sponsorship provided
     qualityCollege : Quality of college integer depending on tier
                     based on tiers provided by government
-    indexing : places where the paper is indexed integer
+    indexing : Bool variable whether it is dblp indexed or not 
     numberOfPrev : Number of previous conferences under the same hood 
                     integer value
     userExp : None or float [0-1 (both included)] depending whether it 
@@ -26,7 +26,26 @@ def ratingGen(flagship, affiliation, featured,
     
     Output : A rating of the conference
     '''
+    netRank = 0.5
+    if flagship == 1 :
+        netRank += 0.5
+    if affiliation == 1:
+        netRank += 0.5
+    netRank += featured
+    if numberOfPrev > 0 and numberOfPrev < 5:
+        netRank += 0.2
+    elif numberOfPrev < 10 :
+        netRank += 0.35
+    elif numberOfPrev > 10: 
+        netRank += 0.5
+    if qualityCollege == 1 :
+        netRank += 0.5
+    if qualityCollege == 2 :
+        netRank += 0.2
+    if indexing == 1: 
+        netRank += 0.5
+    netRank += userExp
+    return netRank
     
-
 if __name__ == '__main__':
-    ratingGen()
+    print ratingGen(1,1,1,1,1,100,1)
