@@ -16,6 +16,7 @@ def broadDomainOptimizer(queries):
     querySpecification = {}
     for query in queries : 
         if query['interest'] is None:
+            querySpecification[query['queryId']] = []
             continue
         for interest in query['interest']:
             try:
@@ -28,14 +29,44 @@ def broadDomainOptimizer(queries):
             except KeyError:
                 querySpecification[query['queryId']] = [interest['broadDomain']]
                 
-    print "Broad Domain Query is\n", broadDomainQuery
-    print "Query Specification is\n", querySpecification
+    #print "Broad Domain Query is\n", broadDomainQuery
+    #print "Query Specification is\n", querySpecification
     
+    return querySpecification
+    
+def CFPOptimizer(queries):
+    '''
+    Input : Unoptimized Queries
+    Output : Queries optimized through CFP
+    Maximum CFP till next one year
+    '''
+    CFPQuery = {}
+    querySpecification = {}
+    for query in queries :
+        if query['cfpDate'] is None:
+            querySpecification[query['queryId']] = None
+        else: 
+            cfpMonth = query['cfpDate'].split("-")[1]
+            querySpecification[query['queryId']] = cfpMonth
+            try :
+                CFPQuery[cfpMonth].append(query['queryId'])
+            except KeyError :
+                CFPQuery[cfpMonth] = [query['queryId']]
+    
+    #print "Broad CFP Query is\n", CFPQuery
+    #print "Query Specification is\n", querySpecification
+    
+    return querySpecification
+
 if __name__ == '__main__':
-    initialRequests = 5
+    initialRequests = 2
+    optimizedQueries = {}
     queries = testcases.generateTestCases(initialRequests)
     print len(queries)
-    print queries
-    broadDomainOptimizer(queries)
-    
-    
+    queryBroadOpt = broadDomainOptimizer(queries)
+    for query in queryBroadOpt:
+        optimizedQueries[query] = {"BroadDomain":queryBroadOpt[query]}
+    queryCFPOpt = CFPOptimizer(queries)
+    for query in queryCFPOpt:
+        optimizedQueries[query]["CFPDate"] = queryCFPOpt[query]
+    print optimizedQueries
