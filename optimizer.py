@@ -3,7 +3,7 @@ Code for optimizing queries
 Author: Tushar Makkar <tusharmakkar08[at]gmail.com>
 Date: 14.03.2015
 '''
-
+import time
 import testcases
 
 def broadDomainOptimizer(queries):
@@ -29,9 +29,9 @@ def broadDomainOptimizer(queries):
             except KeyError:
                 querySpecification[query['queryId']] = [interest['broadDomain']]
                 
-    #print "Broad Domain Query is\n", broadDomainQuery
-    #print "Query Specification is\n", querySpecification
-    
+    #~ print "Broad Domain Query is\n", broadDomainQuery
+    #~ print "Query Specification is\n", querySpecification
+    #~ 
     return querySpecification
     
 def CFPOptimizer(queries):
@@ -46,16 +46,19 @@ def CFPOptimizer(queries):
         if query['cfpDate'] is None:
             querySpecification[query['queryId']] = None
         else: 
-            cfpMonth = query['cfpDate'].split("-")[1]
+            currMonth = time.strftime("%m")
+            cfpMonth = int(query['cfpDate'].split("-")[1])-int(currMonth)
+            if cfpMonth < 0 : 
+                cfpMonth += 12
             querySpecification[query['queryId']] = cfpMonth
             try :
                 CFPQuery[cfpMonth].append(query['queryId'])
             except KeyError :
                 CFPQuery[cfpMonth] = [query['queryId']]
     
-    #print "Broad CFP Query is\n", CFPQuery
-    #print "Query Specification is\n", querySpecification
-    
+    #~ print "Broad CFP Query is\n", CFPQuery
+    #~ print "Query Specification is\n", querySpecification
+    #~ 
     return querySpecification
 
 if __name__ == '__main__':
