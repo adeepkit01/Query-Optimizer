@@ -32,7 +32,7 @@ def broadDomainOptimizer(queries):
     #~ print "Broad Domain Query is\n", broadDomainQuery
     #~ print "Query Specification is\n", querySpecification
     #~ 
-    return querySpecification
+    return querySpecification, len(broadDomainQuery)
     
 def CFPOptimizer(queries):
     '''
@@ -59,7 +59,7 @@ def CFPOptimizer(queries):
     #~ print "Broad CFP Query is\n", CFPQuery
     #~ print "Query Specification is\n", querySpecification
     #~ 
-    return querySpecification
+    return querySpecification, len(CFPQuery)
 
 
 def LocationOptimizer(queries):
@@ -87,21 +87,35 @@ def LocationOptimizer(queries):
     #~ print "location Query is\n", locationQuery
     #~ print "Query Specification is\n", querySpecification
     #~ 
-    return querySpecification
+    return querySpecification, len(locationQuery)
     
-if __name__ == '__main__':
-    initialRequests = 5
+def finalResults(list1, list2):
+    '''
+    given list1 and list2 gives list3 which is the intersection of two 
+    lists
+    Input : list1 and list2 which will have conference id's from 2 
+            different queries
+    Output : list3 comprises of intersection of conference id's which 
+            are the intersection of the list1 id's and list2 id's
+    '''
+    return [val for val in list1 if val in list2]
+
+#~ if __name__ == '__main__':
+    initialRequests = 2
     optimizedQueries = {}
     queries = testcases.generateTestCases(initialRequests)
-    print len(queries)
-    queryBroadOpt = broadDomainOptimizer(queries)
+    queryBroadOpt, totalQuery = broadDomainOptimizer(queries)
     for query in queryBroadOpt:
         optimizedQueries[query] = {"BroadDomain":queryBroadOpt[query]}
-    queryCFPOpt = CFPOptimizer(queries)
+    queryCFPOpt,CFPQuery = CFPOptimizer(queries)
+    totalQuery += CFPQuery
     for query in queryCFPOpt:
         optimizedQueries[query]["CFPDate"] = queryCFPOpt[query]
-    queryState = LocationOptimizer(queries)
+    queryState, locationQuery = LocationOptimizer(queries)
+    totalQuery += locationQuery
     for query in queryState:
         optimizedQueries[query]["State"] = queryState[query]
+    #~ print "Total number of Queries", len(queries)
+    #~ print "Optimized Queries", totalQuery
     print optimizedQueries
-
+    #~ print finalResults([1,2,4,3,5],[1,3,5,6,35,12,4])
