@@ -50,14 +50,14 @@ def generateTestCases(numberOfQueries):
             tempQuery["endDate"] = endDate
         
         
-        cffDay = random.randint(1, 27)
-        cffMonth = random.randint(1, 12)
-        cffYear = random.randint(2015, 2020)
-        cffDate = str(str(beginDay) + "-" + str(beginMonth) + "-" + str(beginYear))
+        cfpDay = random.randint(1, 27)
+        cfpMonth = random.randint(1, 12)
+        cfpYear = random.randint(2015, 2020)
+        cfpDate = str(str(beginDay) + "-" + str(beginMonth) + "-" + str(beginYear))
         if(fieldsToBeAdded[3]):
-            tempQuery["cffDate"] = cffDate
+            tempQuery["cfpDate"] = cfpDate
         else:
-            tempQuery["cffDate"] = cffDate
+            tempQuery["cfpDate"] = cfpDate
                 
         location = []
         states = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", 
@@ -128,15 +128,8 @@ def generateTestCases(numberOfQueries):
         else:
             tempQuery["highestRank"] = 6
         
-        flagArray = [True, False]
-        flagship = flagArray[random.randint(0,1)]
-        if(fieldsToBeAdded[9]):
-            tempQuery["flagship"] = flagship
-        else:
-            tempQuery["flagship"] = None
-        
         outputQuery.append(tempQuery)
     return outputQuery
         
 if __name__ == '__main__':
-    print generateTestCases(3)
+    print generateTestCases(1)
