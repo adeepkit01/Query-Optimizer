@@ -3,7 +3,7 @@ Code for optimizing queries
 Author: Tushar Makkar <tusharmakkar08[at]gmail.com>
 Date: 14.03.2015
 '''
-import time
+import datetime
 import testcases
 
 def broadDomainOptimizer(queries):
@@ -46,7 +46,7 @@ def CFPOptimizer(queries):
         if query['cfpDate'] is None:
             querySpecification[query['queryId']] = None
         else: 
-            currMonth = time.strftime("%m")
+            currMonth = datetime.datetime.now().strftime('%m')
             cfpMonth = int(query['cfpDate'].split("-")[1])-int(currMonth)
             if cfpMonth < 0 : 
                 cfpMonth += 12
@@ -92,7 +92,7 @@ def LocationOptimizer(queries):
 def finalResults(list1, list2):
     '''
     given list1 and list2 gives list3 which is the intersection of two 
-    lists
+    lists . Will be done for the output recieved
     Input : list1 and list2 which will have conference id's from 2 
             different queries
     Output : list3 comprises of intersection of conference id's which 
@@ -100,10 +100,26 @@ def finalResults(list1, list2):
     '''
     return [val for val in list1 if val in list2]
 
-#~ if __name__ == '__main__':
-    initialRequests = 2
+def confDateOptimizer(queries):
+    '''
+    Input : Unoptimized Queries
+    Output : Find minimum and maximum date for final querying , load it 
+            in memory and then do processing
+    '''
+    maxBeginDate = datetime.datetime.strptime("1-1-3003", "%d-%m-%Y")
+    minEndDate = datetime.datetime.strptime(datetime.datetime.now().strftime('%d-%m-%Y'), "%d-%m-%Y")
+    for query in queries :
+        if query['beginDate'] != None and maxBeginDate > datetime.datetime.strptime(query['beginDate'], "%d-%m-%Y"):
+            maxBeginDate = datetime.datetime.strptime(query['beginDate'], "%d-%m-%Y")
+        if query['endDate'] != None and minEndDate < datetime.datetime.strptime(query['endDate'], "%d-%m-%Y"):
+            minEndDate = datetime.datetime.strptime(query['endDate'], "%d-%m-%Y")
+    return maxBeginDate, minEndDate
+
+if __name__ == '__main__':
+    initialRequests = 10
     optimizedQueries = {}
     queries = testcases.generateTestCases(initialRequests)
+    print confDateOptimizer(queries)
     queryBroadOpt, totalQuery = broadDomainOptimizer(queries)
     for query in queryBroadOpt:
         optimizedQueries[query] = {"BroadDomain":queryBroadOpt[query]}
@@ -115,7 +131,7 @@ def finalResults(list1, list2):
     totalQuery += locationQuery
     for query in queryState:
         optimizedQueries[query]["State"] = queryState[query]
-    #~ print "Total number of Queries", len(queries)
-    #~ print "Optimized Queries", totalQuery
+    print "Total number of Queries", len(queries)
+    print "Optimized Queries", totalQuery
     print optimizedQueries
-    #~ print finalResults([1,2,4,3,5],[1,3,5,6,35,12,4])
+    print finalResults([1,2,4,3,5],[1,3,5,6,35,12,4])
