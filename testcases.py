@@ -78,7 +78,7 @@ def generateTestCases(numberOfQueries):
             tempQuery["location"] = None
         
         interest = []
-        broadDomain = ["CSE", "ME", "Meta", "Mining", "EE", "ECE", "IT"]
+        broadDomain = ["CSE", "ME", "Meta", "Mining", "EE", "ECE"]
         mapSpec = {}
         mapSpec["specificDomainCSE"] = ["Networks", "AI", "ML", "SE", "IS"]
         mapSpec["specificDomainME"] = ["Robotics", "Workshop", "Lathe"]
@@ -86,10 +86,9 @@ def generateTestCases(numberOfQueries):
         mapSpec["specificDomainMining"] = ["Soil", "Temperature"]
         mapSpec["specificDomainEE"] = ["Signal", "Image" , "Transistor", "Power"]
         mapSpec["specificDomainECE"] = ["Signal", "Image" , "Transistor"]
-        mapSpec["specificDomainIT"] = ["Networks", "AI", "ML", "SE", "IS"]
         numberOfInterest = random.randint(1,5)
         for domain in xrange(numberOfInterest):
-            interestSpec = random.randint(0,6)
+            interestSpec = random.randint(0,5)
             numberOfSpec = random.randint(1,3)
             for specification in xrange(numberOfSpec):
                 interest.append({"broadDomain": broadDomain[interestSpec]
