@@ -4,6 +4,8 @@ Author: Tushar Makkar <tusharmakkar08[at]gmail.com>
 Date: 14.03.2015
 '''
 
+import operator
+
 def ratingGen(flagship, affiliation, featured, 
                 qualityCollege, indexing, numberOfPrev, userExp):
     '''
@@ -47,5 +49,22 @@ def ratingGen(flagship, affiliation, featured,
     netRank += userExp
     return netRank
     
+def sponsorQuotient(cashConfId):
+    '''
+    Input : list of conference Id's with the amount paid
+    Output : list of sponsor Quotient provided for each conference
+    '''
+    sortedCashConfId = sorted(cashConfId.items(), key=operator.itemgetter(1))
+    totalLen = len(sortedCashConfId)
+    sponsoredConfId = []
+    counter = 1.0
+    for ConfId in sortedCashConfId:
+        tempDict = {}
+        tempDict[ConfId[0]] = float((counter*1.0)/(totalLen*1.0))
+        sponsoredConfId.append(tempDict)
+        counter += 1.0
+    return sponsoredConfId
+        
 if __name__ == '__main__':
+    print sponsorQuotient({1:10, 2:30, 3:5, 4:2, 5:25, 6:45, 7:32})
     print ratingGen(1,1,1,1,1,100,1)
