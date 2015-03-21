@@ -61,6 +61,28 @@ def CFPOptimizer(queries):
     #~ 
     return querySpecification, len(CFPQuery)
 
+def publisherOptimizer(queries):
+    '''
+    Input : Unoptimized Queries
+    Output : Queries optimized through CFP
+    Maximum CFP till next one year
+    '''
+    publisherQuery = {}
+    querySpecification = {}
+    for query in queries :
+        if query['publisher'] is None:
+            querySpecification[query['queryId']] = None
+        else: 
+            publisher = query['publisher']
+            querySpecification[query['queryId']] = publisher
+            try :
+                publisherQuery[publisher].append(query['queryId'])
+            except KeyError :
+                publisherQuery[publisher] = [query['queryId']]
+    
+    print "Broad Publisher Query is\n", publisherQuery
+    print "Query Specification is\n", querySpecification
+    return querySpecification, len(publisherQuery)
 
 def LocationOptimizer(queries):
     '''
@@ -116,22 +138,25 @@ def confDateOptimizer(queries):
     return maxBeginDate, minEndDate
 
 if __name__ == '__main__':
-    initialRequests = 10
+    initialRequests = 100
     optimizedQueries = {}
     queries = testcases.generateTestCases(initialRequests)
-    print confDateOptimizer(queries)
+    #~ print confDateOptimizer(queries)
+    print queries
     queryBroadOpt, totalQuery = broadDomainOptimizer(queries)
     for query in queryBroadOpt:
         optimizedQueries[query] = {"BroadDomain":queryBroadOpt[query]}
-    queryCFPOpt,CFPQuery = CFPOptimizer(queries)
-    totalQuery += CFPQuery
-    for query in queryCFPOpt:
-        optimizedQueries[query]["CFPDate"] = queryCFPOpt[query]
-    queryState, locationQuery = LocationOptimizer(queries)
-    totalQuery += locationQuery
-    for query in queryState:
-        optimizedQueries[query]["State"] = queryState[query]
+    queryPublisherOpt, publisherQuery = publisherOptimizer(queries)
+    totalQuery += publisherQuery
+    #~ queryCFPOpt,CFPQuery = CFPOptimizer(queries)
+    #~ totalQuery += CFPQuery
+    #~ for query in queryCFPOpt:
+        #~ optimizedQueries[query]["CFPDate"] = queryCFPOpt[query]
+    #~ queryState, locationQuery = LocationOptimizer(queries)
+    #~ totalQuery += locationQuery
+    #~ for query in queryState:
+        #~ optimizedQueries[query]["State"] = queryState[query]
     print "Total number of Queries", len(queries)
     print "Optimized Queries", totalQuery
-    print optimizedQueries
-    print finalResults([1,2,4,3,5],[1,3,5,6,35,12,4])
+    #~ print optimizedQueries
+    #~ print finalResults([1,2,4,3,5],[1,3,5,6,35,12,4])
