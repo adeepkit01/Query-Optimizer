@@ -34,6 +34,34 @@ def broadDomainOptimizer(queries):
     #~ 
     return querySpecification, len(broadDomainQuery)
     
+def specificDomainOptimizer(queries):
+    '''
+    Input : Unoptimized Queries
+    Output : Queries optimized through Specific Domain 
+    '''
+    specificDomainQuery = {}
+    querySpecification = {}
+    for query in queries : 
+        if query['interest'] is None:
+            querySpecification[query['queryId']] = []
+            continue
+        for interest in query['interest']:
+            try:
+                specificDomainQuery[interest['specificDomain']].add(query['queryId'])
+            except KeyError:
+                specificDomainQuery[interest['specificDomain']] = set([query['queryId']])
+            try: 
+                if interest['specificDomain'] not in querySpecification[query['queryId']]:
+                    querySpecification[query['queryId']].append(interest['specificDomain'])
+            except KeyError:
+                querySpecification[query['queryId']] = [interest['specificDomain']]
+                
+    print "Specific Domain Query is\n", specificDomainQuery
+    print "Query Specification is\n", querySpecification
+    
+    return querySpecification, len(specificDomainQuery)    
+    
+
 def CFPOptimizer(queries):
     '''
     Input : Unoptimized Queries
@@ -138,16 +166,20 @@ def confDateOptimizer(queries):
     return maxBeginDate, minEndDate
 
 if __name__ == '__main__':
-    initialRequests = 100
+    initialRequests = 10
     optimizedQueries = {}
     queries = testcases.generateTestCases(initialRequests)
     #~ print confDateOptimizer(queries)
-    print queries
+    #~ print queries
     queryBroadOpt, totalQuery = broadDomainOptimizer(queries)
     for query in queryBroadOpt:
         optimizedQueries[query] = {"BroadDomain":queryBroadOpt[query]}
-    queryPublisherOpt, publisherQuery = publisherOptimizer(queries)
-    totalQuery += publisherQuery
+    #~ queryPublisherOpt, publisherQuery = publisherOptimizer(queries)
+    #~ totalQuery += publisherQuery
+    querySpecificOpt, specificQuery = specificDomainOptimizer(queries)
+    for query in querySpecificOpt:
+        optimizedQueries[query] = {"SpecificDomain":queryBroadOpt[query]}
+    totalQuery += specificQuery
     #~ queryCFPOpt,CFPQuery = CFPOptimizer(queries)
     #~ totalQuery += CFPQuery
     #~ for query in queryCFPOpt:
