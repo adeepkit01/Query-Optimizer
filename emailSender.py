@@ -2,11 +2,17 @@
 Code for sending emails
 Author: Tushar Makkar <tusharmakkar08[at]gmail.com>
 Date: 21.03.2015
+----------------------
 Requirements : Postfix, Mail
 Configure Deb Postfix https://rtcamp.com/tutorials/linux/ubuntu-postfix-gmail-smtp/
 Configure RPM Postfix http://freelinuxtutorials.com/quick-tips-and-tricks/configure-postfix-to-use-gmail-in-rhelcentos/
-Setup Emai id http://www.cyberciti.biz/tips/linux-use-gmail-as-a-smarthost.html
+Setup Email id http://www.cyberciti.biz/tips/linux-use-gmail-as-a-smarthost.html
+Make the file executable
+Cron Setup : http://www.cyberciti.biz/faq/how-do-i-add-jobs-to-cron-under-linux-or-unix-oses/
+Sample Cron  : * * * * * /usr/bin/python /home/tusharmakkar08/Query_Optimizer/emailSender.py >/dev/null 2>&1
 '''
+#!/usr/bin/env python
+
 import os
 
 def readEmail(filename):
@@ -14,7 +20,7 @@ def readEmail(filename):
     filename : This file contains list of Email ID's (one per line)
     '''
     subject = "Welcome to ConCat !"
-    with open ("demoEmail.txt", "r") as myFile:
+    with open ("/home/tusharmakkar08/Query_Optimizer/demoEmail.txt", "r") as myFile:
         text=myFile.readlines()
     #~ print text
     with open (filename, "r") as myFile:
@@ -37,4 +43,4 @@ def emailSend(emailId, subject, text):
     
     
 if __name__ == '__main__':
-    readEmail("demoEmailId.txt")
+    readEmail("/home/tusharmakkar08/Query_Optimizer/demoEmailId.txt")
