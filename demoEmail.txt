@@ -1,5 +1,0 @@
-Welcome to ConCat !
-
-We provide a platform for `ConCat`enating conference organizers with participating entities by maintaining a CONference CATalog.
-
-Happy CONCATenating !
