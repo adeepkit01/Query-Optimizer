@@ -5,6 +5,7 @@ Date: 21.03.2015
 Requirements : Postfix, Mail
 Configure Deb Postfix https://rtcamp.com/tutorials/linux/ubuntu-postfix-gmail-smtp/
 Configure RPM Postfix http://freelinuxtutorials.com/quick-tips-and-tricks/configure-postfix-to-use-gmail-in-rhelcentos/
+Setup Emai id http://www.cyberciti.biz/tips/linux-use-gmail-as-a-smarthost.html
 '''
 import os
 
