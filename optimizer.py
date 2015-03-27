@@ -137,7 +137,7 @@ def LocationOptimizer(queries):
     #~ print "location Query is\n", locationQuery
     #~ print "Query Specification is\n", querySpecification
     #~ 
-    return querySpecification, len(locationQuery)
+    return querySpecification, len(locationQuery), locationQuery
     
 def finalResults(list1, list2):
     '''
@@ -165,21 +165,37 @@ def confDateOptimizer(queries):
             minEndDate = datetime.datetime.strptime(query['endDate'], "%d-%m-%Y")
     return maxBeginDate, minEndDate
 
+def optimizedResults(queries):
+    '''
+    queries : List of queries 
+    Return result of the queries
+    ''' 
+    queryState, locationQueryLength, locationQuery = LocationOptimizer(queries)
+    '''
+    Make queries based on locationQuery and do intersection according to queryState
+    '''
+    answerQuery = {} 
+    '''
+    answerQuery = {queryId : [confId]}
+    do for all id's and then intersect with answerQuery and finally return answerQuery
+    '''
+    
 if __name__ == '__main__':
     initialRequests = 10
     optimizedQueries = {}
     queries = testcases.generateTestCases(initialRequests)
+    optimizedResults(queries)
     #~ print confDateOptimizer(queries)
     #~ print queries
-    queryBroadOpt, totalQuery = broadDomainOptimizer(queries)
-    for query in queryBroadOpt:
-        optimizedQueries[query] = {"BroadDomain":queryBroadOpt[query]}
+    #~ queryBroadOpt, totalQuery = broadDomainOptimizer(queries)
+    #~ for query in queryBroadOpt:
+        #~ optimizedQueries[query] = {"BroadDomain":queryBroadOpt[query]}
     #~ queryPublisherOpt, publisherQuery = publisherOptimizer(queries)
     #~ totalQuery += publisherQuery
-    querySpecificOpt, specificQuery = specificDomainOptimizer(queries)
-    for query in querySpecificOpt:
-        optimizedQueries[query] = {"SpecificDomain":queryBroadOpt[query]}
-    totalQuery += specificQuery
+    #~ querySpecificOpt, specificQuery = specificDomainOptimizer(queries)
+    #~ for query in querySpecificOpt:
+        #~ optimizedQueries[query] = {"SpecificDomain":queryBroadOpt[query]}
+    #~ totalQuery += specificQuery
     #~ queryCFPOpt,CFPQuery = CFPOptimizer(queries)
     #~ totalQuery += CFPQuery
     #~ for query in queryCFPOpt:
@@ -188,7 +204,7 @@ if __name__ == '__main__':
     #~ totalQuery += locationQuery
     #~ for query in queryState:
         #~ optimizedQueries[query]["State"] = queryState[query]
-    print "Total number of Queries", len(queries)
-    print "Optimized Queries", totalQuery
+    #~ print "Total number of Queries", len(queries)
+    #~ print "Optimized Queries", totalQuery
     #~ print optimizedQueries
     #~ print finalResults([1,2,4,3,5],[1,3,5,6,35,12,4])
